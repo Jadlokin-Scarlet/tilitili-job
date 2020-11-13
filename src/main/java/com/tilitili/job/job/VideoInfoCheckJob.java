@@ -38,6 +38,10 @@ public class VideoInfoCheckJob extends QuartzJobBean {
         log.info("【VideoInfoCheckJob】check video info start");
         BatchTask batchTask = new BatchTask().setType(TaskType.AutoBatchSpiderVideo.getValue()).setReason(TaskReason.SUPPLEMENT_VIDEO_INFO.getValue());
         List<Long> avList = touhouAllMapper.checkVideoInfo();
+        if (avList.isEmpty()) {
+            log.warn("【VideoInfoCheckJob】check video info empty");
+            return;
+        }
         taskService.batchSpiderVideo(batchTask, avList);
         log.info("【VideoInfoCheckJob】check video info end");
     }
@@ -48,7 +52,7 @@ public class VideoInfoCheckJob extends QuartzJobBean {
 
     @Bean
     public Trigger videoInfoCheckTrigger(JobDetail jobDetail) {
-        return newTrigger().withSchedule(cronSchedule("0 8 0/2 * * ?")).withIdentity(this.getClass().getName()).forJob(jobDetail).build();
+        return newTrigger().withSchedule(cronSchedule("0 0 0/2 * * ?")).withIdentity(this.getClass().getName()).forJob(jobDetail).build();
     }
 
 }
