@@ -3,8 +3,8 @@ package com.tilitili.job.job;
 import com.tilitili.common.emnus.TaskReason;
 import com.tilitili.common.emnus.TaskType;
 import com.tilitili.common.entity.BatchTask;
+import com.tilitili.common.manager.TaskManager;
 import com.tilitili.common.mapper.TouhouAllMapper;
-import com.tilitili.job.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -25,12 +25,12 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public class VideoInfoCheckJob extends QuartzJobBean {
 
     private final TouhouAllMapper touhouAllMapper;
-    private final TaskService taskService;
+    private final TaskManager taskManager;
 
     @Autowired
-    public VideoInfoCheckJob(TouhouAllMapper touhouAllMapper, TaskService taskService) {
+    public VideoInfoCheckJob(TouhouAllMapper touhouAllMapper, TaskManager taskManager) {
         this.touhouAllMapper = touhouAllMapper;
-        this.taskService = taskService;
+        this.taskManager = taskManager;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class VideoInfoCheckJob extends QuartzJobBean {
             log.warn("【VideoInfoCheckJob】check video info empty");
             return;
         }
-        taskService.batchSpiderVideo(batchTask, avList);
+        taskManager.batchSpiderVideo(batchTask, avList);
         log.info("【VideoInfoCheckJob】check video info end");
     }
     @Bean
