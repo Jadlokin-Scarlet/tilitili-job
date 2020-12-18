@@ -52,7 +52,7 @@ public class VideoInfoCheckJob extends QuartzJobBean {
 
     @Bean
     public Trigger videoInfoCheckTrigger(JobDetail jobDetail) {
-        return newTrigger().withSchedule(cronSchedule("0 0 0/2 * * ?")).withIdentity(this.getClass().getName()).forJob(jobDetail).build();
+        return newTrigger().withSchedule(cronSchedule("0 45 1/2 * * ?")).withIdentity(this.getClass().getName()).forJob(jobDetail).build();
     }
 
 }
