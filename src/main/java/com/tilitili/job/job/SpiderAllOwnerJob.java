@@ -34,7 +34,7 @@ public class SpiderAllOwnerJob {
     }
 
     @Async
-    @Scheduled(cron = "0 30 0/2 * * ?")
+    @Scheduled(cron = "0 40 0/2 * * ?")
     protected void executeInternal() {
         Integer start = (Integer) redisCache.get(RedisKeyEnum.SPIDER_ALL_OWNER_REDIS_KEY.getKey());
         int count = ownerMapper.count(new OwnerQuery());
